@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A world-class cinematic luxury digital experience.">
+  <title>The Vault - Exclusivity, Power, Precision</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Font: Outfit for a premium, clean, luxury minimalist feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Scroll spacer to allow scroll-driven camera movements -->
+  <div class="scroll-spacer"></div>
+
+  <!-- Main Viewport Container (Fixed) -->
+  <div id="viewport">
+    
+    <!-- Camera Transform Rig -->
+    <div id="camera-rig">
+      
+      <!-- Base Vault Image Layer -->
+      <img id="vault-gate" class="image-layer" src="vault.png" alt="Underground Vault Gate">
+      
+      <!-- Bloom Layer (Screen blend mode with low opacity and blur) -->
+      <img id="vault-bloom" class="image-layer bloom-layer" src="vault.png" alt="" aria-hidden="true">
+      
+      <!-- Midground Fog Layer -->
+      <div class="fog-container midground-fog">
+        <div class="fog-particle fog-1"></div>
+        <div class="fog-particle fog-2"></div>
+      </div>
+      
+      <!-- Rain Simulation Canvas -->
+      <canvas id="rain-canvas"></canvas>
+      
+      <!-- Foreground Fog Layer (Drifts in front of the rain) -->
+      <div class="fog-container foreground-fog">
+        <div class="fog-particle fog-3"></div>
+        <div class="fog-particle fog-4"></div>
+      </div>
+
+    </div>
+
+    <!-- Cinematic Vignette Overlay -->
+    <div id="vignette"></div>
+
+    <!-- Lightning Flash Overlay -->
+    <div id="lightning-flash"></div>
+
+    <!-- Film Grain Overlay -->
+    <div id="film-grain"></div>
+
+  </div>
+
+  <!-- Luxury Loading and Interaction Overlay -->
+  <div id="loader">
+    <div class="loader-content">
+      <div class="luxury-title">V A U L T</div>
+      <div class="luxury-prompt">CLICK TO INITIATE SYSTEM</div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
