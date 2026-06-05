@@ -1,0 +1,275 @@
+/* Cinematic Vault Landing - Design System */
+
+:root {
+  --vignette-size: 60%;
+  --vignette-opacity: 0.20;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #000;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  scroll-behavior: smooth;
+}
+
+/* Scroll Spacer to provide page length for scroll animation drivers */
+.scroll-spacer {
+  height: 300vh;
+  width: 100%;
+  pointer-events: none;
+}
+
+/* Fixed Viewport hosting the entire cinematic setup */
+#viewport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Camera Transform Rig */
+#camera-rig {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Base and Bloom image layers */
+.image-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  transform: translateZ(0);
+  pointer-events: none;
+  -webkit-user-drag: none;
+  /* High quality photographic scaling */
+  image-rendering: auto;
+}
+
+/* Bloom layer overlay - tight, low-opacity glow targeting light sources only */
+.bloom-layer {
+  mix-blend-mode: screen;
+  opacity: 0.012;
+  filter: contrast(2.6) brightness(1.28) blur(4px);
+}
+
+/* Fog System */
+.fog-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fog-particle {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+/* Midground Fog (behind rain) - opacities reduced by 50% for extreme subtlety */
+.midground-fog .fog-1 {
+  width: 130%;
+  height: 130%;
+  top: -15%;
+  left: -15%;
+  background: radial-gradient(circle, rgba(145, 125, 105, 0.015) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(50px);
+  animation: drift-slow 75s infinite linear;
+}
+
+.midground-fog .fog-2 {
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: radial-gradient(circle, rgba(120, 110, 100, 0.01) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(60px);
+  animation: drift-medium 105s infinite linear;
+}
+
+/* Foreground Fog (in front of rain) - opacities reduced by 50% for extreme subtlety */
+.foreground-fog .fog-3 {
+  width: 160%;
+  height: 160%;
+  top: -30%;
+  left: -30%;
+  background: radial-gradient(circle, rgba(165, 145, 125, 0.01) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(65px);
+  animation: drift-fast 55s infinite linear;
+}
+
+.foreground-fog .fog-4 {
+  width: 180%;
+  height: 180%;
+  top: -40%;
+  left: -40%;
+  background: radial-gradient(circle, rgba(135, 120, 105, 0.008) 0%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(75px);
+  animation: drift-slow-reverse 90s infinite linear;
+}
+
+/* Fog Drift Animations using hardware-accelerated transforms */
+@keyframes drift-slow {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(5%, 3%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes drift-slow-reverse {
+  0% { transform: translate(0, 0) rotate(360deg); }
+  50% { transform: translate(-3%, 4%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes drift-medium {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-4%, 5%) rotate(-180deg); }
+  100% { transform: translate(0, 0) rotate(-360deg); }
+}
+
+@keyframes drift-fast {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(6%, -4%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Rain Canvas overlay */
+#rain-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.86;
+  will-change: opacity;
+}
+
+/* Post-Processing Filters */
+
+/* Vignette Overlay */
+#vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent var(--vignette-size), rgba(0, 0, 0, var(--vignette-opacity)) 100%);
+  will-change: background;
+}
+
+/* Lightning flash screen overlay using color-dodge blend mode with a gradient for realistic light bounce */
+#lightning-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #d6e8ff 0%, #b0cce8 45%, rgba(0, 0, 0, 0) 100%);
+  mix-blend-mode: color-dodge;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Film Grain overlay simulating dynamic film stock flicker */
+#film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grain-flicker 0.12s steps(4) infinite;
+}
+
+@keyframes grain-flicker {
+  0%, 100% { background-position: 0 0; }
+  25% { background-position: 60px 120px; }
+  50% { background-position: -90px 40px; }
+  75% { background-position: 120px -70px; }
+}
+
+/* Luxury Loader / Entrance Screen */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #030303;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1), visibility 2s;
+  cursor: pointer;
+}
+
+#loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.luxury-title {
+  font-size: 2.5rem;
+  font-weight: 200;
+  letter-spacing: 0.7em;
+  color: #fff;
+  text-indent: 0.7em; /* Balance centering with letter-spacing */
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  animation: pulse-title 4s ease-in-out infinite;
+}
+
+.luxury-prompt {
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.47em;
+  color: #666;
+  text-indent: 0.47em;
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+#loader:hover .luxury-prompt {
+  color: #b3b3b3;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+@keyframes pulse-title {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.95; }
+}
